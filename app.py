@@ -356,7 +356,7 @@ def display_year_selector(product_value):
                     id = 'year',
                     type = 'number',
                     # value = str(current_year),
-                    min = 1950, max = current_year
+                    min = 2000, max = current_year
                 )
 
 
@@ -620,7 +620,7 @@ def all_temps_cleaner(product, temps):
     title_temps['Date']=title_temps['Date'].dt.strftime("%Y-%m-%d")
     last_day = title_temps.iloc[-1, 0] 
     
-    return '1950-01-01 through {}'.format(last_day)
+    return '2000-01-01 through {}'.format(last_day)
 
 @app.callback(Output('rec-highs', 'children'),
              [Input('year', 'value')])
