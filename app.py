@@ -706,7 +706,7 @@ def all_temps(selected_year, period):
     previous_year = int(selected_year) - 1
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-    cursor = connection.cursor()
+    cursor = conn.cursor()
     postgreSQL_select_year_Query = 'SELECT * FROM temps WHERE EXTRACT(year FROM "DATE"::TIMESTAMP) IN ({},{}) ORDER BY "DATE" ASC'.format(selected_year, previous_year)
     cursor.execute(postgreSQL_select_year_Query)
     temp_records = cursor.fetchall()
