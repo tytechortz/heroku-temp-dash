@@ -5,15 +5,14 @@ import os
 DATABASE_URL = os.environ['DATABASE_URL']
 
 try:
-    # conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-    postgreSQL_pool = psycopg2.pool.SimpleConnectionPool(DATABASE_URL, sslmode='require')
+
+    postgreSQL_pool = postgreSQL_pool = psycopg2.pool.SimpleConnectionPool(DATABASE_URL, sslmode='require')
+
+    if(postgreSQL_pool):
+            print("Connection pool created successfully")
 
 
-    # norms_connection  = conn.getconn()
-    # reclows_connection = conn.getconn()
-    # rechighs_connection = conn.getconn()
-    # temps_connection = conn.getconn()
-
+ # Use getconn() to Get Connection from connection pool
     norms_connection  = postgreSQL_pool.getconn()
     reclows_connection = postgreSQL_pool.getconn()
     rechighs_connection = postgreSQL_pool.getconn()
@@ -41,6 +40,13 @@ try:
         temps_cursor.execute('SELECT * FROM temps ORDER BY "DATE" ASC')
         all_temps = temps_cursor.fetchall()
         temps_cursor.close()
+
+        #Use this method to release the connection object and send back to connection pool
+        print("Put away a PostgreSQL connection")
+        postgreSQL_pool.putconn(norms_connection)
+        postgreSQL_pool.putconn(reclows_connection)
+        postgreSQL_pool.putconn(rechighs_connection)
+        postgreSQL_pool.putconn(temps_connection)
 
 except (Exception, psycopg2.DatabaseError) as error :
     print ("Error while connecting to PostgreSQL", error)
