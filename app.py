@@ -11,6 +11,9 @@ import pandas as pd
 from numpy import arange,array,ones
 from scipy import stats 
 import psycopg2
+import os
+
+DATABASE_URL = os.environ['DATABASE_URL']
 
 df_all_temps = pd.DataFrame(all_temps,columns=['dow','sta','Date','TMAX','TMIN'])
 
@@ -697,10 +700,11 @@ def all_min_trend(df_5, product_value):
 def all_temps(selected_year, period):
     previous_year = int(selected_year) - 1
     try:
-        connection = psycopg2.connect(user = "postgres",
-                                    password = "1234",
-                                    host = "gunicorn",
-                                    database = "denver_temps")
+        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        # connection = psycopg2.connect(user = "postgres",
+        #                             password = "1234",
+        #                             host = "localhost",
+        #                             database = "denver_temps")
         cursor = connection.cursor()
 
         postgreSQL_select_year_Query = 'SELECT * FROM temps WHERE EXTRACT(year FROM "DATE"::TIMESTAMP) IN ({},{}) ORDER BY "DATE" ASC'.format(selected_year, previous_year)
