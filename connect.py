@@ -49,5 +49,5 @@ finally:
     #closing database connection.
     # use closeall method to close all the active connection if you want to turn of the application
     if (conn):
-        con.closeall
+        conn.closeall
     print("PostgreSQL connection pool is closed")
