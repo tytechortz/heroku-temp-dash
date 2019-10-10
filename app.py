@@ -704,28 +704,36 @@ def all_min_trend(df_5, product_value):
              Input('period', 'value')])
 def all_temps(selected_year, period):
     previous_year = int(selected_year) - 1
-    try:
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-        # connection = psycopg2.connect(user = "postgres",
-        #                             password = "1234",
-        #                             host = "localhost",
-        #                             database = "denver_temps")
-        cursor = connection.cursor()
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = connection.cursor()
+    postgreSQL_select_year_Query = 'SELECT * FROM temps WHERE EXTRACT(year FROM "DATE"::TIMESTAMP) IN ({},{}) ORDER BY "DATE" ASC'.format(selected_year, previous_year)
+    cursor.execute(postgreSQL_select_year_Query)
+    temp_records = cursor.fetchall()
+    df = pd.DataFrame(temp_records)
 
-        postgreSQL_select_year_Query = 'SELECT * FROM temps WHERE EXTRACT(year FROM "DATE"::TIMESTAMP) IN ({},{}) ORDER BY "DATE" ASC'.format(selected_year, previous_year)
-        cursor.execute(postgreSQL_select_year_Query)
-        temp_records = cursor.fetchall()
-        df = pd.DataFrame(temp_records)
+    # try:
+    #     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    #     # connection = psycopg2.connect(user = "postgres",
+    #     #                             password = "1234",
+    #     #                             host = "localhost",
+    #     #                             database = "denver_temps")
+    #     cursor = connection.cursor()
+
+    #     postgreSQL_select_year_Query = 'SELECT * FROM temps WHERE EXTRACT(year FROM "DATE"::TIMESTAMP) IN ({},{}) ORDER BY "DATE" ASC'.format(selected_year, previous_year)
+    #     cursor.execute(postgreSQL_select_year_Query)
+    #     temp_records = cursor.fetchall()
+    #     df = pd.DataFrame(temp_records)
         
-    except (Exception, psycopg2.Error) as error :
-        print ("Error while fetching data from PostgreSQL", error)
+    # except (Exception, psycopg2.Error) as error :
+    #     print ("Error while fetching data from PostgreSQL", error)
     
-    finally:
-        #closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
+    # finally:
+    #     #closing database connection.
+    #     if(connection):
+    #         cursor.close()
+    #         connection.close()
+    #         print("PostgreSQL connection is closed")
 
     return df.to_json()
 
