@@ -36,4 +36,12 @@ try:
         all_temps = temps_cursor.fetchall()
         temps_cursor.close()
 
-   
+except (Exception, psycopg2.DatabaseError) as error :
+    print ("Error while connecting to PostgreSQL", error)
+
+# finally:
+#     #closing database connection.
+#     # use closeall method to close all the active connection if you want to turn of the application
+#     if (postgreSQL_pool):
+#         postgreSQL_pool.closeall
+#     print("PostgreSQL connection pool is closed")

@@ -14,7 +14,7 @@ import psycopg2
 import os
 
 app = dash.Dash(__name__)
-app.layout = get_layout()
+# app.layout = get_layout()
 app.config['suppress_callback_exceptions']=True
 
 server = app.server
