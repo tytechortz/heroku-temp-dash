@@ -1,5 +1,8 @@
 import psycopg2
 from psycopg2 import pool
+import os
+
+DATABASE_URL = os.environ['DATABASE_URL']
 
 try:
 

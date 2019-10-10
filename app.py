@@ -699,7 +699,7 @@ def all_temps(selected_year, period):
     try:
         connection = psycopg2.connect(user = "postgres",
                                     password = "1234",
-                                    host = "localhost",
+                                    host = "gunicorn",
                                     database = "denver_temps")
         cursor = connection.cursor()
 
