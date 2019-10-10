@@ -6,18 +6,18 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 try:
     # conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-    conn = psycopg2.pool.SimpleConnectionPool(DATABASE_URL, sslmode='require')
+    postgreSQL_pool = psycopg2.pool.SimpleConnectionPool(DATABASE_URL, sslmode='require')
 
 
-    norms_connection  = conn.getconn()
-    reclows_connection = conn.getconn()
-    rechighs_connection = conn.getconn()
-    temps_connection = conn.getconn()
+    # norms_connection  = conn.getconn()
+    # reclows_connection = conn.getconn()
+    # rechighs_connection = conn.getconn()
+    # temps_connection = conn.getconn()
 
-    # norms_connection  = postgreSQL_pool.getconn()
-    # reclows_connection = postgreSQL_pool.getconn()
-    # rechighs_connection = postgreSQL_pool.getconn()
-    # temps_connection = postgreSQL_pool.getconn()
+    norms_connection  = postgreSQL_pool.getconn()
+    reclows_connection = postgreSQL_pool.getconn()
+    rechighs_connection = postgreSQL_pool.getconn()
+    temps_connection = postgreSQL_pool.getconn()
 
     if(norms_connection):
         print("successfully recived connection from connection pool ")
@@ -48,6 +48,6 @@ except (Exception, psycopg2.DatabaseError) as error :
 finally:
     #closing database connection.
     # use closeall method to close all the active connection if you want to turn of the application
-    if (conn):
-        conn.closeall
+    if (postgreSQL_pool):
+        postgreSQL_pool.closeall
     print("PostgreSQL connection pool is closed")
