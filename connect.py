@@ -7,9 +7,9 @@ DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 norms_cursor = norms_connection.cursor()
-        norms_cursor.execute("select * from dly_max_norm")
-        norm_records = norms_cursor.fetchall()
-        norms_cursor.close()
+norms_cursor.execute("select * from dly_max_norm")
+norm_records = norms_cursor.fetchall()
+norms_cursor.close()
  # Use getconn() to Get Connection from connection pool
 #     norms_connection  = postgreSQL_pool.getconn()
 #     reclows_connection = postgreSQL_pool.getconn()
