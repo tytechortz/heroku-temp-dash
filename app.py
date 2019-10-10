@@ -137,6 +137,10 @@ app = dash.Dash(__name__)
 app.layout = get_layout
 app.config['suppress_callback_exceptions']=True
 
+server = app.server
+
+app.Title = 'Denver Temp Dashboard'
+
 @app.callback(
             Output('daily-max-t', 'children'),
             [Input('product', 'value'),
