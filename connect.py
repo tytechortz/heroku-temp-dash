@@ -5,7 +5,7 @@ try:
 
     postgreSQL_pool = psycopg2.pool.SimpleConnectionPool(1, 20,user = "postgres",
                                                 password = "1234",
-                                                host = "localhost",
+                                                host = "gunicorn",
                                                 database = "denver_temps")
 
     if(postgreSQL_pool):
