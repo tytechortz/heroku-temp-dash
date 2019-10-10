@@ -5,6 +5,11 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
+norms_cursor = norms_connection.cursor()
+        norms_cursor.execute("select * from dly_max_norm")
+        norm_records = norms_cursor.fetchall()
+        norms_cursor.close()
  # Use getconn() to Get Connection from connection pool
 #     norms_connection  = postgreSQL_pool.getconn()
 #     reclows_connection = postgreSQL_pool.getconn()
@@ -13,10 +18,10 @@ conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 #     if(norms_connection):
 #         print("successfully recived connection from connection pool ")
-#         norms_cursor = norms_connection.cursor()
-#         norms_cursor.execute("select * from dly_max_norm")
-#         norm_records = norms_cursor.fetchall()
-#         norms_cursor.close()
+        # norms_cursor = norms_connection.cursor()
+        # norms_cursor.execute("select * from dly_max_norm")
+        # norm_records = norms_cursor.fetchall()
+        # norms_cursor.close()
 
 #         rl_cursor = reclows_connection.cursor()
 #         rl_cursor.execute('SELECT min(ALL "TMIN") AS rec_low, to_char("DATE"::TIMESTAMP,\'MM-DD\') AS day FROM temps GROUP BY day ORDER BY day ASC')
