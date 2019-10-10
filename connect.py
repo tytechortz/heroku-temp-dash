@@ -8,10 +8,10 @@ try:
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
-    norms_connection  = conn.getconn()
-    reclows_connection = conn.getconn()
-    rechighs_connection = conn.getconn()
-    temps_connection = conn.getconn()
+#     norms_connection  = conn.getconn()
+#     reclows_connection = conn.getconn()
+#     rechighs_connection = conn.getconn()
+#     temps_connection = conn.getconn()
 
     if(norms_connection):
         print("successfully recived connection from connection pool ")
