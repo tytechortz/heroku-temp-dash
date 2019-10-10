@@ -13,6 +13,14 @@ from scipy import stats
 import psycopg2
 import os
 
+app = dash.Dash(__name__)
+app.layout = get_layout()
+app.config['suppress_callback_exceptions']=True
+
+server = app.server
+
+app.Title = 'Denver Temp Dashboard'
+
 DATABASE_URL = os.environ['DATABASE_URL']
 
 df_all_temps = pd.DataFrame(all_temps,columns=['dow','sta','Date','TMAX','TMIN'])
@@ -28,8 +36,11 @@ today = time.strftime("%Y-%m-%d")
 startyr = 1950
 year_count = current_year-startyr
 
-def get_layout():
-    return html.Div(
+
+
+
+body = html.Div([
+        html.Div(
         [
             html.Div([
                 html.H1(
@@ -118,6 +129,7 @@ def get_layout():
         ],
             className='row'
         ),
+
             
             html.Div(id='all-data', style={'display': 'none'}),
             html.Div(id='rec-highs', style={'display': 'none'}),
@@ -135,14 +147,7 @@ def get_layout():
             html.Div(id='d-max-min', style={'display': 'none'}),
         ]
     )
-
-app = dash.Dash(__name__)
-app.layout = get_layout()
-app.config['suppress_callback_exceptions']=True
-
-server = app.server
-
-app.Title = 'Denver Temp Dashboard'
+])
 
 @app.callback(
             Output('daily-max-t', 'children'),
@@ -723,6 +728,8 @@ def all_temps(selected_year, period):
             print("PostgreSQL connection is closed")
 
     return df.to_json()
+
+app.layout = html.Div(body)
 
 if __name__ == "__main__":
     app.run_server(debug=True)
