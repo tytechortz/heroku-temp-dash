@@ -373,7 +373,7 @@ def display_year_selector(product_value):
         return html.P('Enter Year (YYYY)') ,dcc.Input(
                     id = 'year',
                     type = 'number',
-                    value = 2019,
+                    # value = 2019,
                     min = 2000, max = current_year
                 )
 
