@@ -150,6 +150,8 @@ def get_layout():
         )
     ])
 
+app.layout = get_layout
+
 @app.callback(
             Output('daily-max-t', 'children'),
             [Input('product', 'value'),
