@@ -13,11 +13,7 @@ from scipy import stats
 import psycopg2
 import os
 
-app = dash.Dash(__name__)
-# app.layout = get_layout()
-app.config['suppress_callback_exceptions']=True
 
-server = app.server
 
 # app.Title = 'Denver Temp Dashboard'
 
@@ -148,7 +144,14 @@ def get_layout():
                 html.Div(id='d-max-min', style={'display': 'none'}),
             ]
         )
-    ])
+    ]
+)
+
+app = dash.Dash(__name__)
+# app.layout = get_layout()
+app.config['suppress_callback_exceptions']=True
+
+server = app.server
 
 app.layout = get_layout
 
