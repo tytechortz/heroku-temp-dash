@@ -286,6 +286,42 @@ def display_climate_day_table(all_data, selected_date):
     return dr.to_dict('records'), columns, d_max_max, avg_of_dly_highs, d_min_max, d_min_min, avg_of_dly_lows, d_max_min  
 
 @app.callback(
+    Output('climate-day-bar', 'figure'),
+    [Input('date', 'date'),
+    Input('all-data', 'children'),
+    Input('temp-param', 'value'),
+    Input('product', 'value')])
+def climate_day_graph(selected_date, all_data, selected_param, selected_product):
+    dr = pd.read_json(all_data)
+    dr.set_index(['Date'], inplace=True)
+    dr = dr[(dr.index.month == int(selected_date[5:7])) & (dr.index.day == int(selected_date[8:10]))]
+    title_param = dr.index[0].strftime('%B %d')
+    y = dr[selected_param]
+
+    data = [
+        go.Bar(
+            y=y,
+            x=dr.index,
+            marker = {'color':'dodgerblue'}
+        )
+    ]
+    layout = go.Layout(
+        xaxis={'title': 'Year'},
+        yaxis={'title': 'Deg F'},
+        title='{} for {}'.format(selected_param,title_param),
+        plot_bgcolor = 'lightgray',
+    )
+    return {'data': data, 'layout': layout} 
+
+@app.callback(
+    Output('bar', 'children'),
+    [Input('product', 'value' )])
+def display_day_bar(selected_product):
+    print(selected_product)
+    if selected_product == 'climate-for-day':
+        return dcc.Graph(id='climate-day-bar')
+
+@app.callback(
     Output('climate-day-table', 'children'),
     [Input('product', 'value')])
 def display_climate_stuff(value):
@@ -345,10 +381,10 @@ def display_period_selector(product_value):
         return  dcc.RadioItems(
                     id = 'temp-param',
                     options = [
-                        {'label':'Max Temp', 'value':'Tmax'},
-                        {'label':'Min Temp', 'value':'Tmin'},
+                        {'label':'Max Temp', 'value':'TMAX'},
+                        {'label':'Min Temp', 'value':'TMIN'},
                     ],
-                    value = 'Tmax',
+                    value = 'TMAX',
                     labelStyle = {'display':'block'}
                 )
 
