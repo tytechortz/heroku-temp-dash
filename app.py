@@ -387,9 +387,9 @@ def display_period_selector(product_value):
                         {'label':'Fall (Sep-Nov)', 'value':'fall'},
                     ],
                     value = 'annual',
-                    labelStyle = {'display':'block'}
+                    labelStyle = {'display':'inline'}
                 )
-    elif product_value == 'fyma-graph':
+    elif product_value == 'fyma-graph' or product_value == 'climate-for-day':
         return  dcc.RadioItems(
                     id = 'temp-param',
                     options = [
@@ -397,7 +397,7 @@ def display_period_selector(product_value):
                         {'label':'Min Temp', 'value':'TMIN'},
                     ],
                     value = 'TMAX',
-                    labelStyle = {'display':'block'}
+                    labelStyle = {'display':'inline-block'}
                 )
 
 @app.callback(
