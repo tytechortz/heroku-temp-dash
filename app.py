@@ -38,116 +38,117 @@ year_count = current_year-startyr
 
 
 
+def get_layout():
+    
+    return html.Div([
+            html.Div(
+            [
+                html.Div([
+                    html.H1(
+                        'DENVER TEMPERATURE RECORD',
+                        className='twelve columns',
+                        style={'text-align': 'center'}
+                    ),
+                ],
+                    className='row'
+                ),
+                html.Div([
+                    html.H4(
+                        id='title-date-range',
+                        className='twelve columns',
+                        style={'text-align': 'center'}
+                    ),
+                ],
+                    className='row'
+                ),
+                html.Div([
+                    html.Div([
+                        html.Label('Select Product'),
+                        dcc.RadioItems(
+                            id='product',
+                            options=[
+                                {'label':'Temperature graphs', 'value':'temp-graph'},
+                                {'label':'Climatology for a day', 'value':'climate-for-day'},
+                                {'label':'5 Year Moving Avgs', 'value':'fyma-graph'},
+                            ],
+                            # value='temp-graph',
+                            labelStyle={'display': 'block'},
+                        ),
+                    ],
+                        className='three columns',
+                    ),
+                    html.Div([
+                        html.Label('Options'),
+                        html.Div(
+                            id='year-picker'
+                        ),
+                        html.Div(
+                            id='period-picker'
+                        ),
+                        html.Div(
+                            id='date-picker'
+                        ),
+                    ],
+                        className='four columns',
+                    ),  
+                ],
+                    className='row'
+                ),
+                html.Div([
+                    html.Div([
+                        html.Div(
+                            id='graph'
+                        ),
+                    ],
+                        className='eight columns'
+                    ),    
+                ],
+                    className='row'
+                ),
+                html.Div([
+                html.Div([
+                    html.Div(
+                        id='climate-day-table'
+                    ),
+                ],
+                    className='five columns'
+                ),
+                html.Div([
+                    html.Div([
+                        html.Div(id='daily-max-t'),
+                    ],
+                        className='twelve columns'
+                    ),
+                    html.Div([
+                        html.Div(id='daily-min-t'),
+                    ],
+                        className='twelve columns'
+                    ), 
+                ],
+                    className='seven columns'
+                ),     
+            ],
+                className='row'
+            ),
 
-body = html.Div([
-        html.Div(
-        [
-            html.Div([
-                html.H1(
-                    'DENVER TEMPERATURE RECORD',
-                    className='twelve columns',
-                    style={'text-align': 'center'}
-                ),
-            ],
-                className='row'
-            ),
-            html.Div([
-                html.H4(
-                    id='title-date-range',
-                    className='twelve columns',
-                    style={'text-align': 'center'}
-                ),
-            ],
-                className='row'
-            ),
-            html.Div([
-                html.Div([
-                    html.Label('Select Product'),
-                    dcc.RadioItems(
-                        id='product',
-                        options=[
-                            {'label':'Temperature graphs', 'value':'temp-graph'},
-                            {'label':'Climatology for a day', 'value':'climate-for-day'},
-                            {'label':'5 Year Moving Avgs', 'value':'fyma-graph'},
-                        ],
-                        # value='temp-graph',
-                        labelStyle={'display': 'block'},
-                    ),
-                ],
-                    className='three columns',
-                ),
-                html.Div([
-                    html.Label('Options'),
-                    html.Div(
-                        id='year-picker'
-                    ),
-                    html.Div(
-                        id='period-picker'
-                    ),
-                    html.Div(
-                        id='date-picker'
-                    ),
-                ],
-                    className='four columns',
-                ),  
-            ],
-                className='row'
-            ),
-            html.Div([
-                html.Div([
-                    html.Div(
-                        id='graph'
-                    ),
-                ],
-                    className='eight columns'
-                ),    
-            ],
-                className='row'
-            ),
-            html.Div([
-            html.Div([
-                html.Div(
-                    id='climate-day-table'
-                ),
-            ],
-                className='five columns'
-            ),
-            html.Div([
-                html.Div([
-                    html.Div(id='daily-max-t'),
-                ],
-                    className='twelve columns'
-                ),
-                html.Div([
-                    html.Div(id='daily-min-t'),
-                ],
-                    className='twelve columns'
-                ), 
-            ],
-                className='seven columns'
-            ),     
-        ],
-            className='row'
-        ),
-
-            
-            html.Div(id='all-data', style={'display': 'none'}),
-            html.Div(id='rec-highs', style={'display': 'none'}),
-            html.Div(id='rec-lows', style={'display': 'none'}),
-            html.Div(id='norms', style={'display': 'none'}),
-            html.Div(id='temp-data', style={'display': 'none'}),
-            html.Div(id='df5', style={'display': 'none'}),
-            html.Div(id='max-trend', style={'display': 'none'}),
-            html.Div(id='min-trend', style={'display': 'none'}),
-            html.Div(id='d-max-max', style={'display': 'none'}),
-            html.Div(id='avg-of-dly-highs', style={'display': 'none'}),
-            html.Div(id='d-min-max', style={'display': 'none'}),
-            html.Div(id='d-min-min', style={'display': 'none'}),
-            html.Div(id='avg-of-dly-lows', style={'display': 'none'}),
-            html.Div(id='d-max-min', style={'display': 'none'}),
-        ]
-    )
-])
+                
+                html.Div(id='all-data', style={'display': 'none'}),
+                html.Div(id='rec-highs', style={'display': 'none'}),
+                html.Div(id='rec-lows', style={'display': 'none'}),
+                html.Div(id='norms', style={'display': 'none'}),
+                html.Div(id='temp-data', style={'display': 'none'}),
+                html.Div(id='df5', style={'display': 'none'}),
+                html.Div(id='max-trend', style={'display': 'none'}),
+                html.Div(id='min-trend', style={'display': 'none'}),
+                html.Div(id='d-max-max', style={'display': 'none'}),
+                html.Div(id='avg-of-dly-highs', style={'display': 'none'}),
+                html.Div(id='d-min-max', style={'display': 'none'}),
+                html.Div(id='d-min-min', style={'display': 'none'}),
+                html.Div(id='avg-of-dly-lows', style={'display': 'none'}),
+                html.Div(id='d-max-min', style={'display': 'none'}),
+            ]
+        )
+    ])
 
 @app.callback(
             Output('daily-max-t', 'children'),
@@ -737,7 +738,7 @@ def all_temps(selected_year, period):
 
     return df.to_json()
 
-app.layout = html.Div(body)
+# app.layout = html.Div(body)
 
 if __name__ == "__main__":
     app.run_server(debug=False)
