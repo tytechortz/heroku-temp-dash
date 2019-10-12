@@ -177,7 +177,7 @@ def max_stats(product, d_max_max, admaxh, d_min_max):
     dly_max_max = d_max_max
     admaxh = admaxh
     dly_min_max = d_min_max
-    # print(dly_max_max)
+    print(dly_max_max)
     if product == 'climate-for-day':
         return html.Div([
             html.Div([
@@ -399,7 +399,6 @@ def display_day_bar(selected_product):
     if selected_product == 'climate-for-day':
         return dcc.Graph(id='climate-day-bar')
 
-
 @app.callback(
     Output('climate-day-table', 'children'),
     [Input('product', 'value')])
@@ -489,8 +488,8 @@ def display_year_selector(product_value):
         return html.P('Enter Year (YYYY)') ,dcc.Input(
                     id = 'year',
                     type = 'number',
-                    # value = str(current_year),
-                    min = 1950, max = current_year
+                    # value = 2019,
+                    min = 2000, max = current_year
                 )
 
 
@@ -687,7 +686,7 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
     all_min_rolling = fyma_temps['TMIN'].dropna().rolling(window=1825)
     all_min_rolling_mean = all_min_rolling.mean()
 
-    if selected_param == 'TMAX':
+    if selected_param == 'Tmax':
         trace = [
             go.Scatter(
                 y = all_max_rolling_mean,
@@ -701,7 +700,7 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
                 line = {'color':'red'}
             ),
         ]
-    elif selected_param == 'TMIN':
+    elif selected_param == 'Tmin':
         trace = [
             go.Scatter(
                 y = all_min_rolling_mean,
@@ -754,7 +753,7 @@ def all_temps_cleaner(product, temps):
     title_temps['Date']=title_temps['Date'].dt.strftime("%Y-%m-%d")
     last_day = title_temps.iloc[-1, 0] 
     
-    return '1950-01-01 through {}'.format(last_day)
+    return '2000-01-01 through {}'.format(last_day)
 
 @app.callback(Output('rec-highs', 'children'),
              [Input('year', 'value')])
@@ -814,6 +813,12 @@ def all_max_trend(df_5, product_value):
     [Input('df5', 'children'),
     Input('product', 'value')])
 def all_min_trend(df_5, product_value):
+    
+    df5 = pd.read_json(df_5)
+    xi = arange(0,year_count)
+    slope, intercept, r_value, p_value, std_err = stats.linregress(xi,df5['TMIN'])
+    
+    return (slope*xi+intercept)
 
 @app.callback(Output('temp-data', 'children'),
              [Input('year', 'value'),
