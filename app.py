@@ -461,6 +461,7 @@ def display_period_selector(product_value):
                     options = [
                         {'label':'Max Temp', 'value':'TMAX'},
                         {'label':'Min Temp', 'value':'TMIN'},
+                        {'label':'Temp Range', 'value':'RANGE'},
                     ],
                     value = 'TMAX',
                     labelStyle = {'display':'inline-block'}
