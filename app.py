@@ -275,6 +275,7 @@ def display_climate_day_table(all_data, selected_date):
     dr = pd.read_json(all_data)
     
     # dr['Date']=dr['Date'].dt.strftime("%Y-%m-%d") 
+
     dr.set_index(['Date'], inplace=True)
     # print(dr)
     # print(selected_date)
@@ -507,13 +508,17 @@ def update_figure(temp_data, rec_highs, rec_lows, norms, selected_year, period):
     temps = pd.read_json(temp_data)
     temps = temps.drop([0,1], axis=1)
     temps.columns = ['date','TMAX','TMIN']
-    temps['date'] = pd.to_datetime(temps['date'])
+    # temps['date'] = pd.to_datetime(temps['date'])
+    temps['date'] = pd.to_datetime(temps['date'], unit='ms')
     temps = temps.set_index(['date'])
     temps['dif'] = temps['TMAX'] - temps['TMIN']
    
    
-    temps_cy = temps[temps.index.year.isin([selected_year])]
-    temps_py = temps[temps.index.year.isin([previous_year])]
+    # temps_cy = temps[temps.index.year.isin([selected_year])]
+    # temps_py = temps[temps.index.year.isin([previous_year])]
+    temps_cy = temps[(temps.index.year==selected_year)]
+    # temps_py = temps[temps.index.year.isin([previous_year])]
+    temps_py = temps[(temps.index.year==previous_year)]
     df_record_highs_ly = pd.read_json(rec_highs)
     df_record_highs_ly = df_record_highs_ly.set_index(1)
     df_record_lows_ly = pd.read_json(rec_lows)
@@ -742,7 +747,8 @@ def all_temps_cleaner(product_value):
     cleaned_all_temps['Date'] = pd.to_datetime(cleaned_all_temps['Date'])
     cleaned_all_temps = cleaned_all_temps.drop(['dow','sta'], axis=1)
 
-    return cleaned_all_temps.to_json(date_format='iso')
+    # return cleaned_all_temps.to_json(date_format='iso')
+    return cleaned_all_temps.to_json()
 
 @app.callback(Output('title-date-range', 'children'),
             [Input('product', 'value'),
