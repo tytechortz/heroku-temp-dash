@@ -688,7 +688,7 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
     all_max_rolling = fyma_temps['TMAX'].dropna().rolling(window=365)
     all_max_rolling_mean = all_max_rolling.mean()
     
-    all_min_rolling = fyma_temps['TMIN'].dropna().rolling(window=1825)
+    all_min_rolling = fyma_temps['TMIN'].dropna().rolling(window=365)
     all_min_rolling_mean = all_min_rolling.mean()
 
     if selected_param == 'TMAX':
@@ -724,7 +724,7 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
     layout = go.Layout(
         xaxis = {'rangeslider': {'visible':True},},
         yaxis = {"title": 'Temperature F'},
-        title ='5 Year Rolling Mean {}'.format(selected_param),
+        title ='365 Day Rolling Mean {}'.format(selected_param),
         plot_bgcolor = 'lightgray',
         height = 500,
     )
