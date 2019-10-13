@@ -811,7 +811,7 @@ def clean_df5(all_data, product_value):
 def all_max_trend(df_5, product_value):
     
     df5 = pd.read_json(df_5)
-    xi = arange(0,year_count)
+    xi = arange(5,year_count)
     slope, intercept, r_value, p_value, std_err = stats.linregress(xi,df5['TMAX'])
 
     return (slope*xi+intercept)
