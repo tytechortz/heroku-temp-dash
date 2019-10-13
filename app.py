@@ -702,7 +702,8 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
                 y = all_max_temp_fit[0],
                 x = all_max_temp_fit.index,
                 name = 'trend',
-                line = {'color':'red'}
+                line = {'color':'red'},
+                marker = 'none'
             ),
         ]
     elif selected_param == 'TMIN':
@@ -716,7 +717,8 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
                 y = all_min_temp_fit[0],
                 x = all_min_temp_fit.index,
                 name = 'trend',
-                line = {'color':'red'}
+                line = {'color':'red'},
+                marker = 'none'
             ),
         ]
     layout = go.Layout(
