@@ -665,7 +665,7 @@ def update_figure(temp_data, rec_highs, rec_lows, norms, selected_year, period):
              Input('min-trend', 'children'),
              Input('all-data', 'children')])
 def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
-    # print(all_data)
+    print(all_data)
     fyma_temps = pd.read_json(all_data)
     fyma_temps['Date']=fyma_temps['Date'].dt.strftime("%Y-%m-%d") 
     fyma_temps.set_index(['Date'], inplace=True)
@@ -686,7 +686,7 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
     all_min_rolling = fyma_temps['TMIN'].dropna().rolling(window=1825)
     all_min_rolling_mean = all_min_rolling.mean()
 
-    if selected_param == 'Tmax':
+    if selected_param == 'TMAX':
         trace = [
             go.Scatter(
                 y = all_max_rolling_mean,
@@ -700,7 +700,7 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
                 line = {'color':'red'}
             ),
         ]
-    elif selected_param == 'Tmin':
+    elif selected_param == 'TMIN':
         trace = [
             go.Scatter(
                 y = all_min_rolling_mean,
