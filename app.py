@@ -29,7 +29,7 @@ df_rec_highs = pd.DataFrame(rec_highs)
 
 current_year = datetime.now().year
 today = time.strftime("%Y-%m-%d")
-startyr = 2000
+startyr = 1999
 year_count = current_year-startyr
 
 
