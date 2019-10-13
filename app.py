@@ -685,7 +685,7 @@ def update_fyma_graph(selected_param, df_5, max_trend, min_trend, all_data):
     all_min_temp_fit.index = df_5.index
     all_min_temp_fit.index = all_min_temp_fit.index.strftime("%Y-%m-%d")
 
-    all_max_rolling = fyma_temps['TMAX'].dropna().rolling(window=1825)
+    all_max_rolling = fyma_temps['TMAX'].dropna().rolling(window=365)
     all_max_rolling_mean = all_max_rolling.mean()
     
     all_min_rolling = fyma_temps['TMIN'].dropna().rolling(window=1825)
@@ -811,7 +811,7 @@ def clean_df5(all_data, product_value):
 def all_max_trend(df_5, product_value):
     
     df5 = pd.read_json(df_5)
-    xi = arange(5,year_count)
+    xi = arange(0,year_count)
     slope, intercept, r_value, p_value, std_err = stats.linregress(xi,df5['TMAX'])
 
     return (slope*xi+intercept)
