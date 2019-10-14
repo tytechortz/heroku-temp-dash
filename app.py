@@ -658,11 +658,11 @@ def update_figure(temp_data, rec_highs, rec_lows, norms, selected_year, period):
             ),
         ]
     layout = go.Layout(
-                xaxis = {'rangeslider': {'visible':True},},
+                # xaxis = {'rangeslider': {'visible':True},},
                 yaxis = {"title": 'Temperature F'},
                 title ='Daily Temps',
                 plot_bgcolor = 'lightgray',
-                height = 700,
+                height = 500,
         )
     return {'data': trace, 'layout': layout}
 

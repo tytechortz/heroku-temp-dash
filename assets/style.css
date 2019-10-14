@@ -121,7 +121,7 @@
     color: rgb(50, 50, 50);
     background-color: rgba(204, 213, 240, 0.781);
     margin: 5%;
-    zoom: .8
+    /* zoom: .8 */
   }
   .pretty_container {
     border-radius: 5px;
