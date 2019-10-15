@@ -14,8 +14,6 @@ from scipy import stats
 import psycopg2
 import os
 
-
-
 # app.Title = 'Denver Temp Dashboard'
 
 DATABASE_URL = os.environ['DATABASE_URL']
@@ -48,7 +46,7 @@ def get_layout():
                 className='row'
             ),
             html.Div([
-                html.H4(
+                html.H6(
                     id='title-date-range',
                     className='twelve columns',
                     style={'text-align': 'center'}
@@ -593,7 +591,8 @@ def display_year_selector(product_value):
                 )
 
 
-@app.callback(Output('graph1', 'figure'),
+@app.callback([Output('graph1', 'figure'),
+             Output('temps', 'children')],
              [Input('temp-data', 'children'),
              Input('rec-highs', 'children'),
              Input('rec-lows', 'children'),
@@ -760,7 +759,7 @@ def update_figure(temp_data, rec_highs, rec_lows, norms, selected_year, period):
                 plot_bgcolor = 'lightgray',
                 height = 500,
         )
-    return {'data': trace, 'layout': layout}
+    return {'data': trace, 'layout': layout}, temps.to_json()
 
 @app.callback(Output('fyma-graph', 'figure'),
              [Input('temp-param', 'value'),
