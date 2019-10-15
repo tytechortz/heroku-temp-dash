@@ -39,7 +39,7 @@ def get_layout():
     return html.Div(
         [
             html.Div([
-                html.H1(
+                html.H4(
                     'DENVER TEMPERATURE RECORD',
                     className='twelve columns',
                     style={'text-align': 'center'}
