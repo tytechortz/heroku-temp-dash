@@ -9,6 +9,7 @@ import json, csv, dash_table, time, operator
 from connect import norm_records, rec_lows, rec_highs, all_temps
 import pandas as pd
 import numpy as np
+from numpy import arange,array,ones
 from scipy import stats 
 import psycopg2
 import os
