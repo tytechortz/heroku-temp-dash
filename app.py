@@ -101,6 +101,15 @@ def get_layout():
                     ),
                 ],
                     className='eight columns'
+                ),
+                html.Div([
+                    html.Div([
+                        html.Div(id='graph-stats'
+                        ),
+                    ],  
+                    ),
+                ],
+                    className='four columns'
                 ),    
             ],
                 className='row'
@@ -156,6 +165,7 @@ def get_layout():
             html.Div(id='d-min-min', style={'display': 'none'}),
             html.Div(id='avg-of-dly-lows', style={'display': 'none'}),
             html.Div(id='d-max-min', style={'display': 'none'}),
+            html.Div(id='temps', style={'display': 'none'}),
         ]
     )
 
@@ -166,6 +176,91 @@ app.config['suppress_callback_exceptions']=True
 server = app.server
 
 app.layout = get_layout
+
+@app.callback(
+    Output('graph-stats', 'children'),
+    [Input('temps', 'children'),
+    Input('product','value')])
+def display_graph_stats(temps, selected_product):
+    temps = pd.read_json(temps)
+    temps.index = pd.to_datetime(temps.index, unit='ms')
+    temps = temps[np.isfinite(temps['TMAX'])]
+    # print(temps)
+    day_count = temps.shape[0]
+    rec_highs = len(temps[temps['TMAX'] == temps['rh']])
+    rec_lows = len(temps[temps['TMIN'] == temps['rl']])
+    days_abv_norm = len(temps[temps['TMAX'] > temps['nh']])
+    days_blw_norm = len(temps[temps['TMIN'] < temps['nl']])
+    nh = temps['nh'].sum()
+    nl = temps['nl'].sum()
+    tmax = temps['TMAX'].sum()
+    tmin = temps['TMIN'].sum()
+
+    # print(nh)
+    # print(nl)
+    # print(tmax)
+    # print(tmin)
+    degree_days = ((temps['TMAX'].sum() - temps['nh'].sum()) + (temps['TMIN'].sum() - temps['nl'].sum())) / 2
+    if degree_days > 0:
+        color = 'red'
+    elif degree_days < 0:
+        color = 'blue'
+    if selected_product == 'temp-graph':
+        return html.Div(
+            [
+                html.Div([
+                    html.Div('Day Count', style={'text-align':'center'}),
+                    html.Div('{}'.format(day_count), style={'text-align': 'center'})
+                ],
+                    className='round1'
+                ),
+                    html.Div([
+                        html.Div('Records', style={'text-align':'center'}),
+                        html.Div([
+                            html.Div([
+                                html.Div('High: {}'.format(rec_highs), style={'text-align': 'center', 'color':'red'}),
+                            ],
+                                className='six columns'
+                            ),
+                            html.Div([
+                                html.Div('Low: {}'.format(rec_lows), style={'text-align': 'center', 'color':'blue'})
+                            ],
+                                className='six columns'
+                            ),
+                        ],
+                            className='row'
+                        ),
+                    ],
+                        className='round1'
+                    ),
+                    html.Div([
+                        html.Div('Days Above/Below Normal', style={'text-align':'center'}),
+                        html.Div([
+                            html.Div([
+                                html.Div('Above: {}'.format(days_abv_norm), style={'text-align': 'center', 'color':'red'}),
+                            ],
+                                className='six columns'
+                            ),
+                            html.Div([
+                                html.Div('Below: {}'.format(days_blw_norm), style={'text-align': 'center', 'color':'blue'})
+                            ],
+                                className='six columns'
+                            ),
+                        ],
+                            className='row'
+                        ),
+                    ],
+                        className='round1'
+                    ),
+                    html.Div([
+                        html.Div('Degree Days Over/Under Normal', style={'text-align':'center'}),
+                        html.Div(html.Div('{:.0f} Degree Days'.format(degree_days), style={'text-align': 'center', 'color':color})),
+                    ],
+                        className='round1'
+                    ),     
+            ],
+                className='round1'
+            ),
 
 @app.callback(
             Output('daily-max-t', 'children'),
